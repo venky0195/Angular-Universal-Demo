@@ -7,6 +7,7 @@ import { join } from 'path';
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
+import { hello } from 'api/hello';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
@@ -22,10 +23,7 @@ export function app() {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-  // TODO: implement data requests securely
-  server.get('/api/**', (req, res) => {
-    res.status(404).send('data requests are not yet supported');
-  });
+  server.get('/api/hello', hello);
 
   // Serve static files from /browser
   server.get('*.*', express.static(distFolder, {
